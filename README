@@ -1,423 +1,395 @@
 <div align="center">
-  <img src="assets/banner.png" alt="Drowsy Driver Detection and Intelligent Emergency V2V Communication" width="100%" />
 
-  <h1>Drowsy Driver Detection &amp; Intelligent Emergency V2V Communication</h1>
-  <p><strong>From real-time webcam monitoring to coordinated emergency response in a 3D traffic simulator.</strong></p>
+<img src="assets/banner.png" alt="Drowsy Driver Detection + Intelligent Emergency V2V Communication" width="100%"/>
 
-  ![Python](https://img.shields.io/badge/Python-3.10-3776AB?style=for-the-badge&logo=python&logoColor=white)
-  ![MediaPipe](https://img.shields.io/badge/MediaPipe-Face_Landmarker-0F9D58?style=for-the-badge)
-  ![CARLA](https://img.shields.io/badge/CARLA-0.9.15-F59E0B?style=for-the-badge)
-  ![SUMO](https://img.shields.io/badge/SUMO-1.27.1-2563EB?style=for-the-badge)
-  ![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
-  ![Tests](https://img.shields.io/badge/automated_tests-220%2B-22C55E?style=for-the-badge)
-  ![License](https://img.shields.io/badge/license-commercial_options-8B5CF6?style=for-the-badge)
+<br/>
 
-  <p>
-    <a href="https://youtu.be/AtQNb1WovZo"><strong>▶ Watch the demo</strong></a>
-    · <a href="#pricing-and-licensing"><strong>Source code &amp; licensing</strong></a>
-    · <a href="#faq"><strong>FAQ</strong></a>
-  </p>
+![Python](https://img.shields.io/badge/Python-3.10-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![MediaPipe](https://img.shields.io/badge/MediaPipe-Tasks_API-0F9D58?style=for-the-badge)
+![CARLA](https://img.shields.io/badge/CARLA-0.9.15-F59E0B?style=for-the-badge)
+![SUMO](https://img.shields.io/badge/SUMO-1.27.1-2563EB?style=for-the-badge)
+![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
+![Tests](https://img.shields.io/badge/automated_tests-220%2B-22C55E?style=for-the-badge)
+![Source](https://img.shields.io/badge/source_code-included-8B5CF6?style=for-the-badge)
+
+### A complete, working research platform that turns a **webcam** into a **drowsiness-aware V2V safety system** — from face landmarks all the way to a car pulling over in a 3D simulator.
+
+**[▶ Watch the demo](https://youtu.be/AtQNb1WovZo)** &nbsp;·&nbsp; **[💳 Get the source code](#-pricing--licenses)** &nbsp;·&nbsp; **[❓ FAQ](#-faq)**
+
 </div>
 
 ---
 
-## Table of contents
+## ▶ See it in action
 
-- [Overview](#overview)
-- [Demo](#demo)
-- [Who this is for](#who-this-is-for)
-- [Features](#features)
-- [How it works](#how-it-works)
-- [Architecture and simulation backends](#architecture-and-simulation-backends)
-- [Driver-state machine](#driver-state-machine)
-- [V2V message format](#v2v-message-format)
-- [CARLA highway scenario](#carla-highway-scenario)
-- [Dashboard and logs](#dashboard-and-logs)
-- [Evaluation and limitations](#evaluation-and-limitations)
-- [Engineering and tests](#engineering-and-tests)
-- [Quick start](#quick-start)
-- [Project structure](#project-structure)
-- [Pricing and licensing](#pricing-and-licensing)
-- [Requirements](#requirements)
-- [FAQ](#faq)
-- [Safety and scope](#safety-and-scope)
-- [Roadmap](#roadmap)
-- [Citation](#citation)
-- [Contact](#contact)
+[![Watch the live demo on YouTube](https://img.youtube.com/vi/AtQNb1WovZo/maxresdefault.jpg)](https://youtu.be/AtQNb1WovZo)
 
----
+> Real webcam on the left, CARLA 3D world on the right. Close your eyes for ~3 seconds and watch the whole chain fire: **alarm → emergency → V2V broadcast → surrounding cars react → the vehicle brakes, changes lane and pulls over onto the shoulder.** Zero collisions, no teleporting — real vehicle control.
 
-## Overview
+<!--
+SCREENSHOTS (optional, recommended): add 3-4 frames from the video to assets/screenshots/ and uncomment.
 
-Driver drowsiness can put the driver and nearby road users at risk. Many demos stop after detecting closed eyes and playing an alert. This project explores a broader research question:
-
-> **When a system detects driver drowsiness, can it notify nearby simulated vehicles and coordinate a response that helps the affected vehicle reach a safe stop?**
-
-The project connects a live webcam, facial-landmark signals, temporal risk assessment, a driver-state machine, application-level vehicle-to-vehicle (V2V) messages, and simulated vehicle responses. It is designed as a modular Master's research prototype: components can be configured, experiments can be repeated, and events can be inspected after each run.
-
-**Current scope:** the system is demonstrated in software and traffic simulators. It does not control a real vehicle, and detection performance has not been validated as a real-world safety measure using a representative labelled driver dataset.
-
-## Demo
-
-<div align="center">
-  <a href="https://youtu.be/AtQNb1WovZo">
-    <img src="https://img.youtube.com/vi/AtQNb1WovZo/maxresdefault.jpg" alt="Watch the drowsy-driver V2V project demo on YouTube" width="100%" />
-  </a>
-  <p><a href="https://youtu.be/AtQNb1WovZo"><strong>Watch the demo on YouTube</strong></a></p>
-</div>
-
-The demonstration pairs webcam-based driver monitoring with a CARLA 3D traffic scene. In the configured demonstration, sustained eye closure can trigger a warning and emergency sequence; the ego vehicle broadcasts a V2V message, relevant simulated vehicles react, and the ego vehicle attempts a controlled pull-over manoeuvre.
-
-> **Demo note:** the displayed sequence demonstrates prototype behaviour in a configured simulation. It should not be interpreted as proof of real-world detection accuracy or certified vehicle safety.
-
-<!-- Optional project screenshots. Add these files before uncommenting the table.
 | Webcam HUD | CARLA pull-over | Streamlit dashboard |
-|:---:|:---:|:---:|
-| ![Webcam HUD](assets/screenshots/hud.png) | ![CARLA pull-over](assets/screenshots/carla_pullover.png) | ![Dashboard](assets/screenshots/dashboard.png) |
+|:--:|:--:|:--:|
+| <img src="assets/screenshots/hud.png"/> | <img src="assets/screenshots/carla_pullover.png"/> | <img src="assets/screenshots/dashboard.png"/> |
 -->
 
-## Who this is for
+---
 
-| Audience | Potential use |
+## 📌 Table of contents
+
+- [Why this project](#-why-this-project) · [Who it is for](#-who-it-is-for) · [Key features](#-key-features)
+- [How it works](#-how-it-works) · [Architecture](#-architecture) · [Driver state machine](#-driver-state-machine) · [V2V protocol](#-v2v-protocol) · [CARLA scenario](#-the-carla-highway-scenario)
+- [Dashboard & logging](#-dashboard--logging) · [Evaluation](#-transparent-evaluation) · [Engineering quality](#-engineering-quality)
+- [What you get](#-what-you-get) · [Pricing & licenses](#-pricing--licenses) · [How to buy](#-how-to-buy) · [Requirements](#-requirements) · [FAQ](#-faq) · [Safety & scope](#-safety--scope) · [Cite](#-citing-this-work) · [Contact](#-contact)
+
+---
+
+## 💡 Why this project
+
+Drowsy driving is a leading cause of serious road accidents, and most "driver monitoring" demos stop at *"beep when eyes close."* This project goes the whole distance and asks the harder question:
+
+> **If a vehicle detects that its driver is falling asleep, can it tell the cars around it — and does that actually change what they do?**
+
+You get a complete, runnable answer: **perception → explainable decision-making → V2V messaging → coordinated response → safe pull-over**, wired together, tested, logged, and measurable. It is built as a Master's thesis project, so every component is configurable, every result is reproducible, and every limitation is written down.
+
+## 🎯 Who it is for
+
+| You are… | What this gives you |
 |---|---|
-| **Students** | Study an end-to-end computer-vision, state-machine, simulation, and V2V project; adapt it for coursework or a thesis. |
-| **Researchers and academic labs** | Explore alternative detection signals, risk weights, V2V policies, and simulator configurations. |
-| **Automotive, ADAS, and AI teams** | Evaluate a research-stage driver-monitoring and simulated V2X workflow before planning a separate product-grade implementation. |
-| **Educators** | Demonstrate perception pipelines, state transitions, message validation, and traffic simulation. |
+| **A student** (BSc / MSc / capstone) | A finished, defensible, well-documented project with a full thesis-style write-up, experiments and a live demo to learn from or build upon. |
+| **A researcher / lab** | A modular testbed: swap detectors, risk weights, V2V policies or simulators, then measure with the built-in ablation and V2V experiment harness. |
+| **An automotive / ADAS / IoT startup** | A fast prototype of a driver-monitoring → V2X pipeline, with a clean simulator abstraction you can extend. |
+| **An educator** | A teaching-ready example of CV, state machines, messaging protocols and simulation, with Russian/Arabic quick-start guides. |
 
-## Features
+## ✨ Key features
 
 <table>
-  <tr>
-    <td width="50%" valign="top">
-      <h3>Real-time driver monitoring</h3>
-      <ul>
-        <li>Webcam input with MediaPipe Face Landmarker.</li>
-        <li>Eye Aspect Ratio (EAR), Mouth Aspect Ratio (MAR), and head-pose signals.</li>
-        <li>Temporal aggregation so a single frame does not automatically trigger an alert.</li>
-        <li>Explicit handling for uncertain or lost face tracking.</li>
-      </ul>
-    </td>
-    <td width="50%" valign="top">
-      <h3>Explainable risk and state management</h3>
-      <ul>
-        <li>Multi-signal risk fusion with configurable weights and thresholds.</li>
-        <li>Driver-risk levels: LOW, MEDIUM, HIGH, and CRITICAL.</li>
-        <li>State transitions with persistence, hysteresis, and a recovery path.</li>
-        <li>Optional sustained-eye-closure rule for a controlled live demonstration.</li>
-      </ul>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <h3>V2V messaging</h3>
-      <ul>
-        <li>Structured JSON <code>EMERGENCY</code> and <code>CANCEL</code> messages with message IDs.</li>
-        <li>Message checks for range, time-to-live (TTL), duplicates, and malformed payloads.</li>
-        <li>Receiver-side relevance checks based on vehicle position and direction.</li>
-        <li>Collision-risk signals based on time-to-collision (TTC) and vehicle gap.</li>
-      </ul>
-    </td>
-    <td width="50%" valign="top">
-      <h3>Coordinated simulated response</h3>
-      <ul>
-        <li>Responses depend on each vehicle's role relative to the affected vehicle.</li>
-        <li>Staged response: warning, speed reduction, and increased following distance.</li>
-        <li>Pull-over workflow: decelerate, evaluate a gap, change lane when feasible, move to the shoulder, and stop.</li>
-        <li>Vehicle movement is simulated through control commands rather than teleportation.</li>
-      </ul>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2" valign="top">
-      <h3>Designed for repeatable experiments</h3>
-      Experiment scripts, structured CSV/JSONL event logs, a Streamlit dashboard, three simulator backends (CARLA, SUMO, and Mock), and a test suite containing 220+ automated tests.
-    </td>
-  </tr>
+<tr>
+<td width="50%" valign="top">
+
+### 👁️ Real-time driver monitoring
+- Webcam → **MediaPipe Face Landmarker** (Tasks API, actively maintained)
+- **EAR** (eye closure), **MAR** (yawning), **3-axis head pose** (nodding, drooping)
+- **Temporal aggregation** — a single bad frame can *never* trigger an alert
+- Handles lost tracking safely (`MONITORING_UNCERTAIN` never implies "drowsy")
+
+### 🧠 Explainable decision engine
+- Weighted multi-signal **risk fusion** → LOW / MEDIUM / HIGH / CRITICAL
+- **8-state driver state machine** with hysteresis both ways and a mandatory RECOVERY path
+- Optional **microsleep rule** for live demos (eyes closed ≥ N s → emergency)
+- Every threshold lives in one file: `app/config.py`
+
+</td>
+<td width="50%" valign="top">
+
+### 📡 Realistic V2V messaging
+- Typed JSON **EMERGENCY / CANCEL** messages with UUIDs
+- Validation: **range, TTL, per-receiver duplicate prevention, malformed-message rejection**
+- Receiver-side **relevance filtering** (behind / ahead / oncoming)
+- Collision-risk monitor (TTC + gap) escalates message priority
+
+### 🚗 Coordinated vehicle response
+- **Role-aware** reactions: following, adjacent, path-blocking vehicles
+- Staged behaviour: warn → reduce speed → larger headway
+- **Emergency pull-over**: decelerate → find a safe gap → lane change → shoulder → stop
+- Real steering / throttle / brake — **no teleporting**
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top">
+
+### 🧪 Built to be measured, not just shown
+Ablation study harness · 8-condition V2V experiment suite · structured CSV/JSONL event logs · Streamlit live dashboard · **three interchangeable simulators** (CARLA, SUMO, Mock) behind one interface · **220+ automated tests**.
+
+</td>
+</tr>
 </table>
 
-## How it works
+---
 
-<img src="assets/emergency_timeline.png" alt="Emergency detection and response timeline" width="100%" />
+## 🔬 How it works
 
-1. **Perceive:** extract facial landmarks and calculate eye, mouth, and head-pose signals.
-2. **Aggregate:** evaluate persistence and movement patterns over time.
-3. **Assess risk:** combine available signals into a configurable risk score and level.
-4. **Decide:** update the driver-state machine and prevent repeated emergency triggers within the same episode.
-5. **Warn:** display the current state and activate the configured audible alert.
-6. **Broadcast:** send a validated application-level V2V emergency message.
-7. **Coordinate:** each receiving simulated vehicle evaluates relevance and selects a response based on its role.
-8. **Pull over:** the ego vehicle decelerates, checks whether a lane change is feasible, and attempts to stop on the shoulder. If a safe gap is unavailable, the controller follows its configured fallback behaviour.
+One closed-eyes event, end to end:
 
-## Architecture and simulation backends
+<img src="assets/emergency_timeline.png" alt="Emergency timeline" width="100%"/>
 
-<img src="assets/architecture.png" alt="System architecture" width="100%" />
+1. **Perceive** — landmarks → EAR / MAR / head pose, per frame.
+2. **Aggregate** — durations, persistence and nodding patterns over time (the *only* place allowed to say "sustained").
+3. **Assess** — fuse the signals into a risk score and level.
+4. **Decide** — the state machine escalates with hysteresis; EMERGENCY fires **once per episode**.
+5. **Alert** — on-screen HUD + audible alarm (slow beeps → fast beeps → siren).
+6. **Broadcast** — one validated V2V message to every vehicle in range.
+7. **Respond** — each receiver decides if it is relevant and reacts according to its role.
+8. **Pull over** — the ego vehicle decelerates, changes lane only when it is safe, and stops on the shoulder.
 
-The `SimulationBackend` interface separates the application logic from simulator-specific APIs. Detection, risk assessment, state transitions, and V2V decisions are intended to remain independent of direct `carla` and `traci` imports. Adapter and conformance tests help check this separation.
+---
+
+## 🏗 Architecture
+
+<img src="assets/architecture.png" alt="System architecture" width="100%"/>
+
+**The simulator boundary is real, not just a diagram.** Everything above the `SimulationBackend` interface — all detection, risk, decision and V2V logic — never imports `traci` or `carla`. This is enforced mechanically by tests, and the *same* behavioural test-suite runs against both the Mock and the real SUMO backend. Plugging in a different simulator means writing one adapter file.
 
 | Backend | Purpose |
 |---|---|
-| **CARLA 0.9.15** | 3D visual demonstration and simulated vehicle control. |
-| **SUMO 1.27.1 with TraCI** | Repeatable traffic-flow scenarios and batch experiments. |
-| **Mock** | Lightweight backend for fast tests and environments without a simulator. |
+| 🟣 **CARLA 0.9.15** | Photorealistic 3D live demo with active vehicle control |
+| 🔵 **SUMO 1.27.1 + TraCI** | Repeatable traffic-flow batch experiments |
+| ⚪ **Mock** | Instant, dependency-free backend for fast tests and CI |
 
-## Driver-state machine
+---
 
-<img src="assets/state_machine.png" alt="Driver-state machine" width="100%" />
+## 🚦 Driver state machine
 
-- **Escalation requires persistence:** transitions depend on the configured signal and duration thresholds rather than one isolated frame.
-- **Recovery is explicit:** severe states pass through a recovery state instead of jumping directly to AWAKE.
-- **Tracking uncertainty is handled separately:** loss of tracking should not automatically be treated as confirmed drowsiness.
-- **Thresholds are configurable:** see `app/config.py`.
+<img src="assets/state_machine.png" alt="Driver state machine" width="100%"/>
 
-Actual behaviour depends on the selected configuration, the quality of webcam tracking, lighting, camera placement, and the driver. The prototype requires further validation before any safety-related use.
+- **Escalation is earned, not instant** — each rung needs the higher risk to persist.
+- **Recovery is earned too** — CRITICAL/EMERGENCY can never jump straight back to AWAKE; they pass through `RECOVERY`.
+- **False-alarm resistant** — brief blips, normal blinks and a head tilt with open eyes do not escalate (all covered by tests).
 
-## V2V message format
+---
 
-<img src="assets/v2v_pipeline.png" alt="V2V message validation and relevance pipeline" width="100%" />
+## 📡 V2V protocol
 
-Example of an application-level emergency message:
+<img src="assets/v2v_pipeline.png" alt="V2V validation and relevance pipeline" width="100%"/>
 
 ```json
 {
-  "message_id": "8f2e-example-uuid",
+  "message_id": "8f2e…-uuid",
   "vehicle_id": 12,
   "message_type": "EMERGENCY",
   "reason": "DRIVER_DROWSINESS",
   "priority": "HIGH",
   "timestamp": 1234567.5,
   "position": { "x": 500.0, "y": 0.0, "z": 0.0 },
-  "speed": 18.9,
+  "speed": 68.0,
   "heading": 0.0
 }
 ```
 
-The fields above are illustrative. Actual units and validation rules should be checked against the implementation. A corresponding `CANCEL` message can notify receivers that an active emergency has cleared.
+A `CANCEL` message (same shape) is sent when the emergency clears, so receivers can reset cleanly.
 
-**Networking limitation:** this is an application-level simulation of V2V messaging. A realistic wireless channel, packet loss, congestion, and network-delay model are not currently claimed by this project.
+---
 
-## CARLA highway scenario
+## 🛣 The CARLA highway scenario
 
-<img src="assets/highway_scenario.png" alt="CARLA simulated highway scenario" width="100%" />
+<img src="assets/highway_scenario.png" alt="CARLA highway scenario" width="100%"/>
 
-The configured scenario uses a three-lane highway and nine NPC vehicles, with synchronous simulation and a seeded Traffic Manager setup. Vehicle reactions are selected by the receiver's relative role.
+A reproducible 3-lane convoy with 9 NPC vehicles (fixed 20 Hz synchronous mode, seeded Traffic Manager). Each receiver picks its response from its **role** relative to the drowsy vehicle:
 
-| Role | Example situation | Configured response |
+| Role | Who | Response |
 |---|---|---|
-| **Following** | Behind the ego vehicle in the same lane | Reduce speed and increase following distance. |
-| **Adjacent** | Alongside or behind in another lane | Apply a staged response and keep clear where possible. |
-| **Path-blocking** | Ahead and within the configured distance in the ego vehicle's path | Reduce speed; consider moving left only when the feasibility check allows it. |
-| **Unaffected** | Outside the relevant region or direction | No active manoeuvre; the event may remain informational. |
+| **Following** | Behind, same lane | Reduce speed, increase time headway |
+| **Adjacent** | Alongside / behind in another lane | Same staged response, keeps clear |
+| **Path-blocking** | Ahead within 90 m, in ego lane or to its right | Ease to 80 % speed; move left **only if** the feasibility check passes, otherwise just slow down |
+| **Unaffected** | Far ahead / oncoming | Informational only |
 
-The pull-over controller uses a sequence similar to:
+**Emergency pull-over state machine:**
+`NORMAL_DRIVING → EMERGENCY → DECELERATING → SEARCHING_SAFE_PULL_OVER → CHANGING_LANE → PULLING_OVER → STOPPED`
 
-```text
-NORMAL_DRIVING
-  -> EMERGENCY
-  -> DECELERATING
-  -> SEARCHING_SAFE_PULL_OVER
-  -> CHANGING_LANE
-  -> PULLING_OVER
-  -> STOPPED
-```
+It aborts unsafe lane changes (and logs why), falls back to stopping in-lane with hazards if no gap appears, and never gets cancelled mid-manoeuvre by a driver who suddenly wakes up.
 
-The controller can reject an unsafe lane change and use its configured fallback if no acceptable gap appears. These are simulator behaviours, not assurances that the same manoeuvre would be safe on a real road.
+---
 
-## Dashboard and logs
+## 📊 Dashboard & logging
 
-- **Streamlit dashboard:** panels for driver state, vehicle status, collisions, V2V activity, and events; available controls depend on the selected backend.
-- **Webcam HUD:** driver state, risk indicators, eye/yawn/head-pose signals, tracking confidence, vehicle information, V2V counters, and an emergency banner.
-- **Structured logs:** `events.csv` and `events.jsonl` record supported events such as state changes, alerts, V2V messages, responses, lane changes, pull-over stages, and collisions.
-- **Experiment outputs:** CSV/JSON files under `data/results/` can be used to reproduce analyses and prepare thesis tables.
+- **Streamlit dashboard** with live *Driver*, *Vehicle*, *Collision*, *V2V* and *Events* panels; switch between SUMO / Mock / CARLA and tune the V2V range from the sidebar.
+- **Webcam HUD** — driver state, risk, eye/yawn/head-pose readouts, tracking confidence, vehicle speed/lane, V2V counters and a full-width EMERGENCY banner; composed side by side with the CARLA view.
+- **Structured event logs** (`events.csv` + `events.jsonl`) for every run: state changes, alarms, V2V sent/received, vehicle responses, lane changes, pull-over stages, collisions and more — ready for analysis or your thesis tables.
 
-## Evaluation and limitations
+---
 
-Results below describe the project's current test setup. They are included for transparency and **must not be interpreted as real-world safety or accuracy guarantees**.
+## 🧪 Transparent evaluation
 
-### Detection ablation
+Most projects show you only the flattering numbers. This one ships the **experiment harness and the honest results**, so you can reproduce them or re-run them on your own data.
 
-**Reported setup:** 30 synthetic sessions, 83,206 frames, and 159 labelled drowsiness episodes.
+### Detection ablation (30 synthetic sessions · 83,206 frames · 159 drowsiness episodes)
 
-<img src="assets/ablation_results.png" alt="Detection ablation results" width="100%" />
+<img src="assets/ablation_results.png" alt="Ablation results" width="100%"/>
 
 | Configuration | Accuracy | F1 | False-positive rate | Mean latency |
-|---|---:|---:|---:|---:|
-| Eye-only baseline | 91.8% | 0.699 | 1.5% | 2.96 s |
-| **Full multi-signal system** | 87.9% | 0.612 | 6.4% | 3.16 s |
-| No head pose | 86.9% | 0.582 | 7.0% | 2.96 s |
-| No head nodding | 85.6% | 0.572 | 9.0% | 3.16 s |
-| No temporal smoothing | 87.2% | 0.697 | 13.3% | **0.88 s** |
+|---|:--:|:--:|:--:|:--:|
+| Eye-only baseline | 91.8 % | 0.699 | 1.5 % | 2.96 s |
+| **Full multi-signal system** | 87.9 % | 0.612 | 6.4 % | 3.16 s |
+| No head pose | 86.9 % | 0.582 | 7.0 % | 2.96 s |
+| No head nodding | 85.6 % | 0.572 | 9.0 % | 3.16 s |
+| No temporal smoothing | 87.2 % | 0.697 | 13.3 % | **0.88 s** |
 
-**Interpretation:** in this synthetic benchmark, the eye-only baseline performs better on several headline metrics than the full multi-signal configuration. Removing temporal smoothing reduces reported latency but increases the false-positive rate. These results motivate further calibration and evaluation; they do not establish that the full model is more accurate in real driving conditions.
+**What this shows**
+- ⏱ **Temporal smoothing is a real trade-off knob**: removing it makes detection ~3.6× faster (3.16 s → 0.88 s) but roughly doubles the false-positive rate (6.4 % → 13.3 %).
+- 🧩 Head-pose and nodding evidence measurably reduce false positives *within the full system*.
+- 🔍 On this synthetic benchmark the simple eye-only baseline is hard to beat — the ablation harness is exactly the tool you need to find out whether fusion pays off on **your** data.
 
-> **Dataset limitation:** the figures above are based on synthetic, generator-labelled sessions, not a representative real-world driver-video benchmark. Webcam performance may differ substantially in real conditions. External validation on appropriately collected and labelled data remains future work.
+> **Important:** all detection numbers come from synthetic, generator-labelled sessions. They are **not** real-world accuracy claims. See [FAQ](#-faq).
 
-### V2V and response experiments
+### V2V + response experiments (real SUMO · 8 conditions)
 
-<img src="assets/v2v_results.png" alt="V2V and vehicle response experiment results" width="100%" />
+<img src="assets/v2v_results.png" alt="V2V experiment results" width="100%"/>
 
-The current experiment suite reports eight SUMO conditions, including variations in V2V range, traffic density, and following-vehicle behaviour.
+- ✅ **0 collisions in all 8 conditions** (baseline, short/long V2V range, close/far following, faster/slower follower, dense traffic).
+- 📡 Delivery is correctly gated by **communication range and receiver geometry**, not blindly broadcast.
+- 🚗 The following vehicle's speed measurably dropped **0.8 s after message delivery** in the conditions where it stayed in range.
 
-- The recorded runs reported **zero collisions across the eight tested conditions**. This applies only to those scenarios and runs; it does not guarantee collision-free behaviour in other conditions.
-- Message delivery is gated by the configured communication range and receiver geometry.
-- In conditions where the following vehicle remained in range, its speed was reported to decrease 0.8 seconds after message delivery.
+Raw data: `data/results/*.csv|json` · Full methodology and discussion: `docs/thesis.md`.
 
-Raw outputs: `data/results/` · Methodology and discussion: `docs/thesis.md`.
+---
 
-## Engineering and tests
+## 🛡 Engineering quality
 
-| Area | Implementation notes |
+| | |
 |---|---|
-| **Codebase** | Approximately 9,000 lines of typed/documented Python, according to the current project inventory. |
-| **Automated tests** | 220+ tests covering unit behaviour, scenarios, V2V validation and relevance, emergency logic, abstractions, and end-to-end sessions. |
-| **Integration checks** | Includes real-SUMO integration coverage and a fake-CARLA adapter test; live-CARLA tests depend on an available server. |
-| **Configuration** | Thresholds, risk weights, and timing settings are centralised in `app/config.py` where applicable. |
-| **Repeatability** | Seeded scenarios, synchronous simulation where configured, and logged runs. |
-| **Fallbacks** | Mock mode for lightweight execution; the live demo can also offer a clearly labelled preview or scripted mode depending on available dependencies. |
-| **Environment check** | `python scripts/check_environment.py` diagnoses common setup issues. |
+| **~9,000 lines** of typed, documented Python | Modular packages: `app/`, `simulation/`, `dashboard/`, `experiments/`, `tests/` |
+| **220+ automated tests** | Unit, scenario, V2V, relevance, emergency, abstraction and full-session tests — including **real-SUMO integration tests** and a faithful fake-CARLA adapter test (live-CARLA tests run automatically when a server is present) |
+| **One-file configuration** | Every threshold, weight and timing in `app/config.py` — no magic numbers hidden in logic |
+| **Reproducible** | Seeded scenarios, deterministic synchronous simulation, logged runs |
+| **Graceful fallbacks** | No SUMO? Mock backend. No CARLA? Labelled kinematic preview. No camera? Scripted demo scenarios |
+| **Environment check script** | `python scripts/check_environment.py` diagnoses your setup in seconds |
 
-The test count and evaluation figures can change as the code evolves. Run the test suite locally before relying on any reported number.
-
-## Quick start
-
-### 1. Check the environment
+### Demo modes
 
 ```bash
-python scripts/check_environment.py
+python live_demo.py                      # real webcam + CARLA 3D, full emergency chain
+python live_demo.py --controlled-demo    # no webcam: scripted, clearly labelled signals
+python live_demo.py --backend mock       # no CARLA: labelled kinematic preview
+python main.py --demo                    # CLI end-to-end demo (SUMO / Mock)
+streamlit run dashboard/app.py           # live dashboard
+pytest -q                                # full test suite
 ```
 
-Use Python 3.10 for the project's CARLA 0.9.15 Windows setup unless the installation guide for your specific environment states otherwise.
+---
 
-### 2. Run a demo
+## 📦 What you get
 
-```bash
-# Webcam + CARLA 3D demo (requires a configured CARLA server)
-python live_demo.py
-
-# Scripted demonstration without a webcam
-python live_demo.py --controlled-demo
-
-# Lightweight kinematic preview without CARLA
-python live_demo.py --backend mock
-
-# CLI end-to-end demo using SUMO or the configured fallback
-python main.py --demo
-
-# Streamlit dashboard
-streamlit run dashboard/app.py
-
-# Run automated tests
-pytest -q
 ```
-
-Review the setup documentation before launching a simulator-dependent mode. Exact command options can vary with the current version of the project; run `python live_demo.py --help` or `python main.py --help` if a command-line option is not recognised.
-
-## Project structure
-
-```text
 project/
-├── app/             # Detection, risk, state machine, alarms, V2V, response, and logging
-├── simulation/      # CARLA / SUMO / Mock adapters, lane logic, vehicle control, scenarios
-├── dashboard/       # Streamlit dashboard
-├── experiments/     # Ablation and V2V experiment harnesses
-├── tests/           # Automated tests
-├── docs/            # Thesis write-up and setup/demo guides
-├── data/results/    # Experiment results (CSV / JSON)
-├── scripts/         # Environment and simulator diagnostics
-├── main.py          # CLI demo
-├── live_demo.py     # Webcam and simulator demonstration
+├── app/            Detection · risk · state machine · alarm · V2V · vehicle response · pull-over · logging
+├── simulation/     CARLA / SUMO / Mock adapters · road frame · lane logic · vehicle control · scenarios
+├── dashboard/      Streamlit live dashboard
+├── experiments/    Ablation + V2V experiment harness
+├── tests/          220+ automated tests
+├── docs/           Thesis write-up · CARLA setup & integration · run-from-scratch (AR) · demo guide (RU/AR)
+├── data/results/   Experiment results (CSV + JSON)
+├── scripts/        Environment check · landmark check · CARLA map probe
+├── main.py         End-to-end CLI demo
+├── live_demo.py    One-command CARLA + webcam demonstration
 └── requirements*.txt
 ```
 
-Depending on the purchased package and the contents of the repository at delivery, the project may include the Python source, setup guides, thesis-style research documentation, experiment scripts/results, and tests. Confirm that all referenced assets and documents are present in the release ZIP before publishing or delivering it.
+- ✅ Complete Python source code
+- ✅ Full thesis-style research write-up (`docs/thesis.md`): problem, research questions, methodology, baselines, ablation, results, limitations, future work
+- ✅ Step-by-step setup guides (English · Arabic · Russian)
+- ✅ Experiment data and the scripts that produced it
+- ✅ Test suite and environment checker
 
-## Pricing and licensing
+---
 
-The following are **proposed initial asking prices** for licensing the source code. They are not independently appraised market values and can be adjusted based on buyer requirements, support, and due diligence.
+## 💳 Pricing & licenses
 
-| License | Price | Included rights | Intended buyer |
-|---|---:|---|---|
-| **Student / Educational** | **US$79** | Source code and setup documentation for individual learning and eligible academic work; no commercial use or redistribution. | Individual students. |
-| **Research / Academic Lab** | **US$299** | Source code, documentation, and experiment materials for research within the licensed individual or lab; publication is allowed with appropriate citation, subject to the license. | Researchers, universities, and labs. |
-| **Commercial R&amp;D Prototype** | **US$2,500** | Source code for internal evaluation and prototype research by the licensed organisation; no resale, redistribution, or production-vehicle deployment. | Automotive, ADAS, and AI teams evaluating the concept. |
-| **Exclusive acquisition / IP transfer** | **Custom quote** | Not included in the licenses above; would require a separate written agreement defining the transferred rights, assets, warranties, and support. | A buyer seeking exclusive ownership or broader rights. |
+<!-- EDIT: fill in your prices and the checkout link before publishing -->
 
-### License terms to make explicit
+| | 🎓 **Student** | 🔬 **Researcher / Academic Lab** | 🏢 **Professional / Commercial** |
+|---|:--:|:--:|:--:|
+| **Price** | **[PRICE]** | **[PRICE]** | **[PRICE]** |
+| Full source code | ✅ | ✅ | ✅ |
+| Docs, thesis write-up & setup guides | ✅ | ✅ | ✅ |
+| Experiment data & scripts | ✅ | ✅ | ✅ |
+| Use for coursework, theses & publications | ✅ | ✅ | ✅ |
+| Use within a research group | — | ✅ | ✅ |
+| Commercial / internal product prototyping | — | — | ✅ |
+| Setup support | Email | Email | Priority email |
+| **Eligibility** | Valid student ID or university email | University / institute email or ORCID | Anyone |
 
-- A source-code license is **not** an automatic transfer of copyright or exclusive ownership.
-- Redistribution, resale, public reposting of the source, and sublicensing are not permitted unless a written agreement explicitly allows them.
-- The commercial prototype license is for internal R&amp;D evaluation only. It does not certify the system for use in a real vehicle or permit safety-critical deployment.
-- Any exclusive sale, IP assignment, or work-for-hire arrangement must be negotiated separately and documented in writing.
-- Before accepting payment, confirm that you have the right to license all included code, assets, datasets, and documentation, including under applicable university or collaborator agreements.
+> 🎓 **Student & researcher pricing:** send a student ID, a university email address, or your ORCID profile when you order and the discounted price is applied.
+>
+> 📄 Source is licensed to the purchaser (and, for lab / commercial tiers, the stated team). Redistribution, resale or publishing the source code is not permitted. If you publish research that uses it, please [cite it](#-citing-this-work).
 
-**Purchase and quote requests:** see [Contact](#contact). Replace the email placeholder below before publishing this repository.
+## 🛒 How to buy
 
-## Requirements
+1. **Choose your tier** and order via **[YOUR_CHECKOUT_LINK]**, or email **[YOUR_EMAIL]** with the subject `Drowsy Driver V2V — <your tier>`.
+2. **Student / researcher?** Include your verification (student ID, university email or ORCID).
+3. **Pay** — you receive the source code package (ZIP) and a license note.
+4. **Run** — follow `docs/run_from_scratch.md`; `python scripts/check_environment.py` tells you if anything is missing.
 
-| Component | Minimum / expected setup | Recommended setup |
+Not sure it fits your use case? **[Watch the demo](https://youtu.be/AtQNb1WovZo)** first, or message me with your requirements.
+
+---
+
+## ⚙ Requirements
+
+| | Minimum | Recommended |
 |---|---|---|
-| **Operating system** | Windows 10/11 is the primary target described by the project. | Windows 10/11 for the documented CARLA demo. |
-| **Python** | Python 3.10 for the CARLA 0.9.15 Windows compatibility path. | Python 3.10 in a dedicated virtual environment. |
-| **Camera** | Built-in or USB webcam for live monitoring. | Front-facing camera with stable positioning and even lighting. |
-| **GPU** | Not required for the core webcam detector or Mock backend. | NVIDIA GPU with 6 GB+ VRAM for a smoother CARLA 3D experience; actual requirements depend on CARLA settings. |
-| **Disk space** | Approximately 2 GB for a reduced setup without CARLA, subject to dependencies. | Approximately 20 GB or more for CARLA and assets; verify against the actual map/assets selected. |
+| **OS** | Windows 10 / 11 (primary, tested) | Windows 10 / 11 |
+| **Python** | 3.10 (matches the CARLA 0.9.15 Windows wheel) | 3.10 |
+| **Webcam** | Any USB / built-in camera | Front-facing, even lighting |
+| **GPU** | Not needed for detection, SUMO or Mock | NVIDIA, ≥ 6 GB VRAM for the CARLA 3D demo (low-quality mode works on laptops) |
+| **Disk** | ~2 GB (without CARLA) | ~20 GB (with CARLA server) |
 
-Core stack: Python, OpenCV, MediaPipe, NumPy, Streamlit, pandas, pytest, and optional SUMO/TraCI and CARLA components. Install simulator dependencies by following the repository's setup guides; simulator binaries and Python packages may need separate configuration.
+Core stack: OpenCV · MediaPipe · NumPy · Streamlit · pandas · pytest · SUMO + TraCI + sumolib (installed via pip) · CARLA (optional, for the 3D demo).
 
-On Windows, the audible alert can use the standard-library `winsound` module. On other platforms, sound behaviour depends on the implementation and installed audio support.
+> The audible alarm uses the Windows standard library (`winsound`); on other platforms the alarm is logged but silent. The detection, V2V and simulation layers are platform-independent Python.
 
-## FAQ
+---
+
+## ❓ FAQ
 
 <details>
-  <summary><strong>Can I use a normal laptop webcam?</strong></summary>
-  <p>Yes, for the prototype's live monitoring pipeline. No dedicated GPU is required for the core webcam detection path, although lighting, camera position, and tracking quality can affect results. CARLA's 3D simulation benefits from a capable GPU.</p>
+<summary><b>Does it work with a normal laptop webcam?</b></summary>
+
+Yes. Detection runs on a standard webcam with MediaPipe — no special hardware, no GPU required for the monitoring pipeline itself. Only the optional CARLA 3D view benefits from a dedicated GPU.
 </details>
 
 <details>
-  <summary><strong>How accurate is the drowsiness detection?</strong></summary>
-  <p>The quantitative table in this README uses synthetic, labelled sessions. It is not a real-world accuracy estimate. Detection performance has not yet been established on a representative, independently labelled driver-video dataset.</p>
+<summary><b>How accurate is the drowsiness detection?</b></summary>
+
+The quantitative results in this README come from <b>synthetic, labelled sessions</b>, because collecting and labelling real drivers' footage was out of scope for the thesis. They demonstrate the pipeline's behaviour and trade-offs (e.g. the effect of temporal smoothing), <b>not</b> real-world accuracy. Detection quality on real faces also depends on lighting, camera position and the individual user, and thresholds should be calibrated for your setup. The experiment harness is included precisely so you can validate on your own data.
 </details>
 
 <details>
-  <summary><strong>Can this be installed in a real car?</strong></summary>
-  <p>No. This is a research and education prototype. It does not control real steering, brakes, throttle, a CAN bus, or automotive hardware, and it is not a certified safety system.</p>
+<summary><b>Can I use this in a real car?</b></summary>
+
+No. This is a research and education prototype. It controls nothing real — all "vehicle control" happens inside a simulator — and it is not a certified automotive safety system. See <a href="#-safety--scope">Safety & scope</a>.
 </details>
 
 <details>
-  <summary><strong>Do I need CARLA?</strong></summary>
-  <p>No. CARLA is used for the visual 3D demonstration. SUMO is used for traffic-flow experiments, and the Mock backend supports lightweight tests and demonstrations without either simulator. Available features depend on the selected backend.</p>
+<summary><b>Do I need CARLA?</b></summary>
+
+No. CARLA is for the visual 3D demo. SUMO (installed automatically via pip) powers the batch experiments, and the Mock backend lets everything run with zero simulator installed.
 </details>
 
 <details>
-  <summary><strong>Can I replace the detector or simulator?</strong></summary>
-  <p>The architecture is designed to support replacement through configuration and simulator adapters. The amount of work depends on the interfaces and behaviour provided by the new component.</p>
+<summary><b>Can I swap in another simulator or my own detector?</b></summary>
+
+Yes — that is the point of the architecture. Simulators plug in through one adapter implementing the `SimulationBackend` interface. The detector, risk weights and thresholds are all configurable and covered by tests.
 </details>
 
 <details>
-  <summary><strong>Can I use this for my thesis or a research paper?</strong></summary>
-  <p>That depends on the license you purchase and your institution's rules. Cite the project when using it in published work, and clearly distinguish simulation results from real-world validation.</p>
+<summary><b>Can I use it for my thesis or paper?</b></summary>
+
+Yes, with any tier. Please <a href="#-citing-this-work">cite the project</a> in published work. The included `docs/thesis.md` shows one way to structure the research write-up and experiments.
 </details>
 
 <details>
-  <summary><strong>What do I receive after purchase?</strong></summary>
-  <p>The deliverables should be listed in the written quote or license agreement. The intended package may include source code, setup instructions, documentation, tests, and experiment materials, depending on the selected tier.</p>
+<summary><b>What happens after I pay?</b></summary>
+
+You receive the full source package and license note, plus the setup guides. If something does not run on your machine, email me with the output of <code>python scripts/check_environment.py</code> and I will help you get unblocked.
 </details>
 
-## Safety and scope
+---
 
-> **Software simulation and research prototype only.** This project does not control a real vehicle, steering, brakes, throttle, a CAN bus, or automotive hardware. Simulated nearby-vehicle responses are research behaviours, not certified automotive safety behaviour. The V2V layer is an application-level simulation and does not currently claim realistic wireless delay, packet loss, or congestion modelling. The detection metrics shown here come from synthetic labelled sessions and have not been validated as real-world driver-drowsiness accuracy. Do not deploy this prototype in a real vehicle or rely on it for safety-critical decisions.
+## 🛑 Safety & scope
 
-## Roadmap
+> **This is a software simulation / research prototype only.** It does not control any real vehicle, steering, brakes, throttle, CAN bus or automotive hardware. The nearby-vehicle response behaviour is a research prototype, not certified automotive safety behaviour, and is not intended for deployment. V2V is an application-level simulation (no network delay / loss model yet). Detection accuracy has not been validated on real driver footage, and no real-world accuracy claim is made.
 
-- Validate and recalibrate thresholds using appropriately collected, real, labelled driver datasets.
-- Add configurable V2V network delay, packet-loss, and congestion models.
-- Run multi-seed experiments and report variability and confidence intervals.
-- Expand ego-vehicle control for curved roads and additional road geometries.
-- Explore per-user calibration for eye and mouth thresholds.
+## 🗺 Roadmap
 
-## Citation
+- Validate and recalibrate thresholds on real, labelled driver datasets
+- V2V network delay / packet-loss model
+- Multi-seed timing experiments and confidence intervals
+- Curved-road support in the ego controller
+- Per-user calibration of eye / mouth thresholds
 
-If you use this project in academic work, cite it and describe which version, configuration, dataset, and simulator you used. Update this citation if the official title or university details change.
+## 📚 Citing this work
 
 ```bibtex
 @mastersthesis{drowsy_v2v_2026,
@@ -425,18 +397,16 @@ If you use this project in academic work, cite it and describe which version, co
   author = {Gebriel Shrouk Mohamed},
   school = {Belgorod State Technological University named after V.G. Shukhov},
   year   = {2026},
-  note   = {Software prototype using CARLA and SUMO simulation}
+  note   = {Software prototype, CARLA / SUMO simulation}
 }
 ```
 
-## Contact
+## 📬 Contact
 
-**Shrouk Mohamed** · GitHub: [@shroukmohamed5](https://github.com/shroukmohamed5) · Email: **YOUR_EMAIL@example.com** · Demo: [YouTube](https://youtu.be/AtQNb1WovZo)
-
-For licensing, source-code access, or a commercial R&amp;D quote, use the subject line `Drowsy Driver V2V — License Inquiry` when emailing.
-
----
+**Gebriel Shrouk Mohamed** · GitHub: [@shroukmohamed5](https://github.com/shroukmohamed5) · Email: **[YOUR_EMAIL]** · Demo: [youtu.be/AtQNb1WovZo](https://youtu.be/AtQNb1WovZo)
 
 <div align="center">
-  <sub>Built with Python, OpenCV, MediaPipe, SUMO, CARLA, and Streamlit. All trademarks belong to their respective owners.</sub>
+
+<sub>Built with OpenCV, MediaPipe, SUMO, CARLA and Streamlit. All trademarks belong to their respective owners.</sub>
+
 </div>
